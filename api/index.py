@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return jsonify({"message": "Hello, World! Flask API on Vercel."})
 
-# Required for Vercel serverless function
-def handler(event, context):
-    return app(event, context)
+# Vercel requires a proper handler function
+from mangum import Mangum
+handler = Mangum(app)
 
