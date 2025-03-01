@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import requests
+from mangum import Mangum  # ✅ Required for Vercel
 
 app = Flask(__name__)
 
@@ -41,7 +42,7 @@ def get_avatar():
     return jsonify({"avatar": avatar_url})  # Return JSON response
 
 # ✅ Required for Vercel
-handler = app  # Vercel needs this!
+handler = Mangum(app)
 
 if __name__ == "__main__":
     app.run(debug=True)
