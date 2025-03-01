@@ -48,7 +48,7 @@ def fetch_leetcode_data(username):
 
 @app.route("/")
 def generate_image():
-    username = request.args.get("username", "default_user")  # Get username from query params
+    username = request.args.get("username", "echobash")  # Get username from query params
 
     user_data = fetch_leetcode_data(username)
     if not user_data:
