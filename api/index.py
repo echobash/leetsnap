@@ -51,6 +51,7 @@ def generate_image():
     username = request.args.get("username", "default_user")  # Get username from query params
 
     user_data = fetch_leetcode_data(username)
+    print(user_data)
     if not user_data:
         return "LeetCode user not found", 404
 
