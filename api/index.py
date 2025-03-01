@@ -1,4 +1,7 @@
+from flask import Flask, request, jsonify
 import requests
+
+app = Flask(__name__)
 
 LEETCODE_API_URL = "https://leetcode.com/graphql"
 
@@ -20,12 +23,25 @@ def fetch_leetcode_avatar(username):
         headers={"Content-Type": "application/json"}
     )
 
-    print("Response Status:", response.status_code)  # Debugging
-    print("Response JSON:", response.json())  # Debugging
-
     if response.status_code == 200:
         data = response.json().get("data", {}).get("matchedUser")
         if data:
-            return data["profile"]["userAvatar"]  # Only return avatar URL
+            return data["profile"]["userAvatar"]
 
     return None  # Return None if user not found
+
+@app.route("/")
+def get_avatar():
+    username = request.args.get("username", "default_user")  # Get username from query params
+    avatar_url = fetch_leetcode_avatar(username)
+
+    if not avatar_url:
+        return jsonify({"error": "LeetCode user not found"}), 404
+
+    return jsonify({"avatar": avatar_url})  # Return JSON response
+
+# ✅ Required for Vercel
+handler = app  # Vercel needs this!
+
+if __name__ == "__main__":
+    app.run(debug=True)
