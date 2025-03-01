@@ -1,12 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Hello, World! Flask API on Vercel."})
+    return "Hello, World! Welcome to Vercel with Python!"
 
-# Vercel requires a proper handler function
-from mangum import Mangum
-handler = Mangum(app)
-
+# Required for Vercel (acts as entry point)
+def handler(event, context):
+    return app(event, context)
